@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import '../css/App.css';
 import { Grid, Row, Col, Button, Label, Navbar, Nav, NavItem, Table } from 'react-bootstrap'
 
+// websites example using bootstrap: https://react.rocks/tag/Bootstrap
+// https://react-bootstrap.github.io/components.html
 class App extends Component {
   render() {
     return (
