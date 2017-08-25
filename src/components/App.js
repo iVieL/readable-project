@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
 import '../css/App.css';
-import { Grid, Row, Col, Button, Label, Navbar, Nav, NavItem, Table } from 'react-bootstrap'
+import { Grid, Row, Col, Button, Label, Table } from 'react-bootstrap'
+import * as ReadableAPI from '../api/ReadableAPI'
+import Categories from "./Categories";
 
 // websites example using bootstrap: https://react.rocks/tag/Bootstrap
 // https://react-bootstrap.github.io/components.html
 class App extends Component {
   render() {
+    ReadableAPI.categories().then( (category) => (
+      console.log(category)
+    ))
     return (
       <Grid fluid={true}>
         <Row>
@@ -19,33 +24,12 @@ class App extends Component {
           </Col>
         </Row>
 
-        <Row>
-          <Col xs={1} sm={1} md={1} lg={1}></Col>
-          <Col xs={8} sm={8} md={8} lg={8}>
-            <Navbar>
-              <Navbar.Header>
-                <Navbar.Brand>
-                  <a href="#">Categories</a>
-                </Navbar.Brand>
-                <Navbar.Toggle />
-              </Navbar.Header>
-              <Navbar.Collapse>
-                <Nav>
-                  <NavItem>Category 1</NavItem>
-                  <NavItem>Category 2</NavItem>
-                  <NavItem>Category 3</NavItem>
-                </Nav>
-              </Navbar.Collapse>
-            </Navbar>
-          </Col>
-          <Col xs={1} sm={1} md={1} lg={1}>
-            <Button bsStyle="primary">Add Post</Button>
-          </Col>
-        </Row>
+        <Categories />
+
         <Row>
           <Col xs={1} sm={1} md={1} lg={1} />
           <Col xs={11} sm={11} md={11} lg={11}>
-            <h3 class="text-left">
+            <h3 className="text-left">
               <Label bsClass="text-warning">Avaialble post 100/100</Label>
             </h3>
           </Col>
@@ -55,10 +39,12 @@ class App extends Component {
           <Col xs={10} sm={10} md={10} lg={10}>
             <Table bordered striped responsive>
               <thead>
-                <th className="col-md-1">Votes</th>
-                <th className="col-md-6">Post Title</th>
-                <th className="col-md-1">User</th>
-                <th className="col-md-2">Date</th>
+                <tr>
+                  <th className="col-md-1">Votes</th>
+                  <th className="col-md-6">Post Title</th>
+                  <th className="col-md-1">User</th>
+                  <th className="col-md-2">Date</th>
+                </tr>
               </thead>
               <tbody>
                 <tr>
@@ -92,17 +78,17 @@ class App extends Component {
               <nav aria-label="Page navigation">
                 <ul className="pagination pagination-sm">
                   <li>
-                    <a href="#" aria-label="Previous">
+                    <a href="http://localhost:3000" aria-label="Previous">
                       <span aria-hidden="true">&laquo;</span>
                     </a>
                   </li>
-                  <li><a href="#">1</a></li>
-                  <li><a href="#">2</a></li>
-                  <li><a href="#">3</a></li>
-                  <li><a href="#">4</a></li>
-                  <li><a href="#">5</a></li>
+                  <li><a href="http://localhost:3000">1</a></li>
+                  <li><a href="http://localhost:3000">2</a></li>
+                  <li><a href="http://localhost:3000">3</a></li>
+                  <li><a href="http://localhost:3000">4</a></li>
+                  <li><a href="http://localhost:3000">5</a></li>
                   <li>
-                    <a href="#" aria-label="Next">
+                    <a href="http://localhost:3000" aria-label="Next">
                       <span aria-hidden="true">&raquo;</span>
                     </a>
                   </li>
