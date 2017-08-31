@@ -8,9 +8,8 @@ const headers = {
   'Authorization': READABLE_KEY
 }
 
-export const categories = () =>
-  fetch(`${api}/categories`, { headers })
+export function categories() {
+  return fetch(`${api}/categories`, { headers })
     .then(res => res.json())
     .then(data => data.categories)
-
-
+}

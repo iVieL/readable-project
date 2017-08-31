@@ -2,11 +2,21 @@ import React, { Component } from 'react';
 import '../css/App.css';
 import { Grid, Row, Col, Button, Label, Table } from 'react-bootstrap'
 import * as ReadableAPI from '../api/ReadableAPI'
+import { getCategories } from '../actions'
 import Categories from "./Categories";
+import { connect } from 'react-redux'
 
 // websites example using bootstrap: https://react.rocks/tag/Bootstrap
 // https://react-bootstrap.github.io/components.html
 class App extends Component {
+
+  searchCategories = () => {
+    ReadableAPI.categories()
+    .then( (categories) => (
+      this.props.setCategories(categories)
+    ))
+  }
+
   render() {
     ReadableAPI.categories().then( (category) => (
       console.log(category)
@@ -24,7 +34,7 @@ class App extends Component {
           </Col>
         </Row>
 
-        <Categories />
+        <Categories list={searchCategories}/>
 
         <Row>
           <Col xs={1} sm={1} md={1} lg={1} />
@@ -103,4 +113,16 @@ class App extends Component {
   }
 }
 
-export default App;
+function mapStateToProps( { categories } ) {
+  return {
+    categoryList: categories
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    setCategories: (data) => dispatch(getCategories(data))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
