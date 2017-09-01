@@ -1,9 +1,13 @@
 import React, { Component } from 'react'
 import { Row, Col, Button, Navbar, Nav, NavItem } from 'react-bootstrap'
+import { capitalize } from '../utils/helpers'
 
 class Categories extends Component {
 
   render() {
+    const { categories } = this.props
+
+    console.log('Categories->render ', categories, );
     return (
       <Row>
         <Col xs={1} sm={1} md={1} lg={1}></Col>
@@ -17,9 +21,9 @@ class Categories extends Component {
             </Navbar.Header>
             <Navbar.Collapse>
               <Nav>
-                <NavItem>Category 1</NavItem>
-                <NavItem>Category 2</NavItem>
-                <NavItem>Category 3</NavItem>
+                { Array.isArray(categories) && categories.map( (category) => (
+                  <NavItem key={category.name}>{capitalize(category.name)}</NavItem>
+                ))}
               </Nav>
             </Navbar.Collapse>
           </Navbar>

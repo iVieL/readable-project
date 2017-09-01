@@ -4,6 +4,7 @@ import {
 } from '../actions'
 
 function categories(state = {}, action) {
+  console.log("reducer->categories", state, action);
   switch (action.type) {
     case GET_CATEGORIES:
       const { categories } = action

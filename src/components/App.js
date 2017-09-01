@@ -12,15 +12,19 @@ class App extends Component {
 
   searchCategories = () => {
     ReadableAPI.categories()
-    .then( (categories) => (
-      this.props.setCategories(categories)
-    ))
+    .then( (categories) => {
+      console.log("updating categories", categories);
+      this.props.setCategories( { categories } )
+    })
+  }
+
+  componentDidMount() {
+    this.searchCategories()
   }
 
   render() {
-    ReadableAPI.categories().then( (category) => (
-      console.log(category)
-    ))
+    const { categoryList } = this.props
+    console.log('render() ', categoryList);
     return (
       <Grid fluid={true}>
         <Row>
@@ -34,7 +38,8 @@ class App extends Component {
           </Col>
         </Row>
 
-        <Categories list={searchCategories}/>
+        {/* {categoriesLoaded && <Categories categories={categoryList}/>} */}
+        <Categories categories={categoryList}/>
 
         <Row>
           <Col xs={1} sm={1} md={1} lg={1} />
@@ -114,14 +119,19 @@ class App extends Component {
 }
 
 function mapStateToProps( { categories } ) {
+  console.log("mapStateToProps ", categories);
   return {
-    categoryList: categories
+    categoryList: categories.categories
   }
 }
 
 function mapDispatchToProps(dispatch) {
+  console.log("mapDispatchToProps");
   return {
-    setCategories: (data) => dispatch(getCategories(data))
+    setCategories: (data) => {
+      console.log('dispatch->data', data);
+      dispatch(getCategories(data))
+    }
   }
 }
 
