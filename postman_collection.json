@@ -1,0 +1,61 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Readable-udacity",
+		"_postman_id": "608bbdc8-4811-b7fe-c95d-547db64461bf",
+		"description": "APIs test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "new post",
+			"request": {
+				"url": "http://localhost:5001/posts",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "ABCD1234",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"id\":\"_duu9ph2gy\",\"timestamp\":1504558605990,\"title\":\"Post #1\",\"body\":\"Testing API\",\"author\":\"Vielinko\",\"category\":\"react\"}"
+				},
+				"description": "new post"
+			},
+			"response": []
+		},
+		{
+			"name": "get posts",
+			"request": {
+				"url": "http://localhost:5001/posts",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "ABCD1234",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"id\":\"_duu9ph2gy\",\"timestamp\":1504558605990,\"title\":\"Post #1\",\"body\":\"Testing API\",\"author\":\"Vielinko\",\"category\":\"react\"}"
+				},
+				"description": "get all posts"
+			},
+			"response": []
+		}
+	]
+}

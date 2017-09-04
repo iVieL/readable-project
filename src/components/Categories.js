@@ -7,7 +7,6 @@ class Categories extends Component {
   render() {
     const { categories } = this.props
 
-    console.log('Categories->render ', categories, );
     return (
       <Row>
         <Col xs={1} sm={1} md={1} lg={1}></Col>

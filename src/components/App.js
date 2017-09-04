@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import '../css/App.css';
 import Login from './login'
-import { Grid, Row, Col, Button, Label, Table } from 'react-bootstrap'
+import { Grid, Row, Col, Label, Table } from 'react-bootstrap'
 import * as ReadableAPI from '../api/ReadableAPI'
 import { getCategories } from '../actions'
 import Categories from "./Categories";
+import Post from './Post'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { Route, Link } from 'react-router-dom'
@@ -26,7 +27,8 @@ class App extends Component {
   }
 
   render() {
-    const { categoryList } = this.props
+    const { categoryList, loggedIn, user } = this.props
+
     return (
       <div>
         <Route exact path='/' render={ () => (
@@ -38,8 +40,7 @@ class App extends Component {
                 </h3>
               </Col>
               <Col xs={3} sm={3} md={3} lg={3}>
-                <Link to="/login" className="success">Login</Link>
-                {/* <Button bsStyle="success">Login</Button> */}
+                <Link to="/login" className="btn btn-success">{ loggedIn ?  user: 'Login'}</Link>
               </Col>
             </Row>
 
@@ -123,14 +124,20 @@ class App extends Component {
         <Route path="/login" render={ () => (
           <Login />
         )}/>
+        <Route exact path="/newpost" render={ () => (
+          <Post new="true"/>
+        )}/>
       </div>
     );
   }
 }
 
-function mapStateToProps( { categories } ) {
+function mapStateToProps( { categories, login } ) {
+  console.log('app-login? ', login);
   return {
-    categoryList: categories.categories
+    categoryList: categories.categories,
+    loggedIn: login.loggedIn,
+    user: login.user
   }
 }
 

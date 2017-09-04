@@ -14,6 +14,15 @@ export function categories() {
     .then(data => data.categories)
 }
 
-export function newPost({}) {
-
+export function newPost(body) {
+  return fetch(`${api}/posts`,
+    {
+      method: 'POST',
+      headers: {
+        ...headers,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringifty(body)
+    })
+    .then( res => res.json())
 }
