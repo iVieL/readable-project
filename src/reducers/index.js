@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux'
 import {
-  GET_CATEGORIES
+  GET_CATEGORIES,
+  LOGIN
 } from '../actions'
 
 function categories(state = {}, action) {
-  console.log("reducer->categories", state, action);
   switch (action.type) {
     case GET_CATEGORIES:
       const { categories } = action
@@ -17,6 +17,21 @@ function categories(state = {}, action) {
   }
 }
 
+function login(state = {}, action) {
+  const {type, user, loggedIn} = action
+  switch (type) {
+    case LOGIN:
+      return {
+        ...state,
+        user: user,
+        loggedIn: loggedIn
+      }
+    default:
+      return state
+  }
+}
+
 export default combineReducers( {
-  categories
+  categories,
+  login
 } )

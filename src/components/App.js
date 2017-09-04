@@ -13,6 +13,7 @@ import { Route, Link } from 'react-router-dom'
 // https://react-bootstrap.github.io/components.html
 class App extends Component {
 
+  //todo: load categories directly on Categories Component
   searchCategories = () => {
     ReadableAPI.categories()
     .then( (categories) => {

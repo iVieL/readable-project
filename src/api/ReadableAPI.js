@@ -13,3 +13,7 @@ export function categories() {
     .then(res => res.json())
     .then(data => data.categories)
 }
+
+export function newPost({}) {
+
+}
