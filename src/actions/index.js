@@ -1,5 +1,7 @@
 export const GET_CATEGORIES = 'GET_CATEGORIES'
 export const LOGIN = 'LOGIN'
+export const POSTS = 'POSTS'
+//export const POSTS_BY_CATEGORY = 'POSTS_BY_CATEGORY'
 
 export function getCategories( { categories } ) {
   return {
@@ -13,5 +15,12 @@ export function session( { user, loggedIn }) {
     type: LOGIN,
     user: user,
     loggedIn: loggedIn
+  }
+}
+
+export function posts( posts ) {
+  return {
+    type: POSTS,
+    posts: posts
   }
 }

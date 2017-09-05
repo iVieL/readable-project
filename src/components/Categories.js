@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { Row, Col, Button, Navbar, Nav, NavItem } from 'react-bootstrap'
+import { Row, Col, Navbar, Nav, NavItem } from 'react-bootstrap'
 import { capitalize } from '../utils/helpers'
+import { Link } from 'react-router-dom'
 
 class Categories extends Component {
 
@@ -28,7 +29,7 @@ class Categories extends Component {
           </Navbar>
         </Col>
         <Col xs={1} sm={1} md={1} lg={1}>
-          <Button bsStyle="primary">Add Post</Button>
+          <Link to="/newpost" className="btn btn-info">Add Post</Link>
         </Col>
       </Row>
     )
