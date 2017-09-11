@@ -18,7 +18,7 @@ function categories(state = {}, action) {
   }
 }
 
-function login(state = {}, action) {
+function login(state = {user: 'Vielinko', loggedIn: true}, action) {
   const {type, user, loggedIn} = action
   switch (type) {
     case LOGIN:

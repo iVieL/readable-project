@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-// import * as ReadableAPI from '../api/ReadableAPI'
+import * as ReadableAPI from '../api/ReadableAPI'
 import { connect } from 'react-redux'
 import serializeform from 'form-serialize'
 import { FormGroup, ControlLabel, FormControl, Row, Col, Button } from 'react-bootstrap'
+import { uniqueId } from '../utils/helpers'
 
 class Post extends Component {
   state = {
@@ -30,9 +31,21 @@ class Post extends Component {
   }
 
   submitPost = (e) => {
+    //todo: validate for loggedIn user, before show component or execute an action?
     e.preventDefault()
     const values = serializeform(e.target, {hash: true})
     console.log("values: ", values);
+    const newValues = {
+      ...values,
+      id: uniqueId(),
+      timestamp: Date.now(),
+      author: this.props.user
+    }
+    console.log('new values: ', newValues)
+    ReadableAPI.newPost(newValues)
+      .then( (res) =>
+        console.log(res)
+      )
   }
 
   render() {
@@ -80,4 +93,10 @@ class Post extends Component {
   }
 }
 
-export default connect()(Post)
+function mapStateToProps({ login }) {
+  return {
+    user: login.user
+  }
+}
+
+export default connect(mapStateToProps)(Post)
