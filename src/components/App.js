@@ -9,7 +9,8 @@ import PostsList from "./PostsList";
 import Post from './Post'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
-import { Route, Link } from 'react-router-dom'
+import { Route } from 'react-router-dom'
+import Header from './Header'
 
 // websites example using bootstrap: https://react.rocks/tag/Bootstrap
 // https://react-bootstrap.github.io/components.html
@@ -28,24 +29,15 @@ class App extends Component {
   }
 
   render() {
-    const { categoryList, loggedIn, user } = this.props
+    const { categoryList } = this.props
 
     return (
       <div>
         <Route exact path='/' render={ () => (
           <Grid fluid={true}>
-            <Row>
-              <Col xs={9} sm={9} md={9} lg={9}>
-                <h3 className="text-center">
-                  <Label bsClass="text-primary">Vielinko's Readable Project</Label>
-                </h3>
-              </Col>
-              <Col xs={3} sm={3} md={3} lg={3}>
-                <Link to="/login" className="btn btn-success">{ loggedIn ?  user: 'Login'}</Link>
-              </Col>
-            </Row>
 
-            {/* {categoriesLoaded && <Categories categories={categoryList}/>} */}
+            <Header />
+
             <Categories categories={categoryList}/>
 
             <Row>
