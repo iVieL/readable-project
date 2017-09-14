@@ -45,10 +45,10 @@ function postsReducer(state = {}, action) {
     case CHANGE_CATEGORY:
       return {
         ...state,
-        filter
+        filter: filter
       }
     default:
-    return state
+      return state
   }
 }
 

@@ -89,6 +89,7 @@ class PostsList extends Component {
 
 function mapStateToProps( { postsReducer } ) {
   console.log('PostsList->mapStateToProps');
+  console.log('post reducer: ', postsReducer)
   return {
     list: postsReducer.posts,
     category: postsReducer.filter
