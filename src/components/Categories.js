@@ -46,14 +46,14 @@ class Categories extends Component {
               <Nav>
                 { Array.isArray(categories) && categories.map( (category) => (
                   <NavItem
-                    href={ () => (this.filterPosts(category)) }
+                    onClick={ () => (this.filterPosts(category)) }
                     key={category.name}
                     className={this.categorySelected(selected, category.name)}>
                     {capitalize(category.name)}
                   </NavItem>
                 ))}
                 <NavItem
-                  href={this.filterPosts()}
+                  onClick={this.filterPosts()}
                   className={this.categorySelected(selected, undefined)}>
                   All
                 </NavItem>
