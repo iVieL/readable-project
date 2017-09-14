@@ -7,17 +7,33 @@ import * as ReadableAPI from '../api/ReadableAPI'
 
 class PostsList extends Component {
 
-  componentDidMount() {
-    ReadableAPI.getAll()
-    .then( (posts) => {
-      console.log("posts: ", posts)
-      this.props.allPosts(posts)
-    })
+  filterByCategory = (categoryName) => {
+    categoryName = 'react'
+    console.log('selected: ', categoryName);
+    if(categoryName) {
+      ReadableAPI.postsByCategory(categoryName)
+      .then( (posts) => {
+        console.log("posts: ", posts)
+        this.props.allPosts( { posts, filter: categoryName } )
+      })
 
+    } else {
+      ReadableAPI.getAll()
+      .then( (posts) => {
+        console.log("posts: ", posts)
+        this.props.allPosts( { posts, filter: undefined })
+      })
+    }
+
+  }
+
+  componentDidMount() {
+    this.filterByCategory()
   }
 
   render() {
     const { list } = this.props
+    console.log(this.props);
     return (
       <Row>
         <Col xs={1} sm={1} md={1} lg={1} />
@@ -72,8 +88,10 @@ class PostsList extends Component {
 }
 
 function mapStateToProps( { postsReducer } ) {
+  console.log('PostsList->mapStateToProps');
   return {
-    list: postsReducer.posts
+    list: postsReducer.posts,
+    category: postsReducer.filter
   }
 }
 

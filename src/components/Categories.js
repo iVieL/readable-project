@@ -2,11 +2,34 @@ import React, { Component } from 'react'
 import { Row, Col, Navbar, Nav, NavItem } from 'react-bootstrap'
 import { capitalize } from '../utils/helpers'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { getCategories, changeCategory } from '../actions'
+import * as ReadableAPI from '../api/ReadableAPI'
 
 class Categories extends Component {
 
+  categorySelected = (selected, name) => {
+    return name === selected ? "label label-success": "label label-info"
+  }
+
+  getCategories = () => {
+    ReadableAPI.categories()
+    .then( (categories) => {
+      this.props.filterCategories( { categories } )
+    })
+  }
+
+  filterPosts = (categoryName) => {
+    this.props.changeCategory({ categoryName })
+  }
+
+  componentDidMount() {
+    this.getCategories()
+  }
+
+
   render() {
-    const { categories } = this.props
+    const { categories, selected } = this.props
 
     return (
       <Row>
@@ -22,8 +45,18 @@ class Categories extends Component {
             <Navbar.Collapse>
               <Nav>
                 { Array.isArray(categories) && categories.map( (category) => (
-                  <NavItem key={category.name}>{capitalize(category.name)}</NavItem>
+                  <NavItem
+                    href={ () => (this.filterPosts(category)) }
+                    key={category.name}
+                    className={this.categorySelected(selected, category.name)}>
+                    {capitalize(category.name)}
+                  </NavItem>
                 ))}
+                <NavItem
+                  href={this.filterPosts()}
+                  className={this.categorySelected(selected, undefined)}>
+                  All
+                </NavItem>
               </Nav>
             </Navbar.Collapse>
           </Navbar>
@@ -36,4 +69,22 @@ class Categories extends Component {
   }
 }
 
-export default Categories
+function mapStateToProps({ categories }) {
+  console.log('Categories->mapStateToProps');
+  return {
+    categories: categories.categories
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    filterCategories: (data) => {
+      dispatch(getCategories(data))
+    },
+    changeCategory: (data) => {
+      dispatch(changeCategory(data))
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Categories)

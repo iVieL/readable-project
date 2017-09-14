@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import '../css/App.css';
 import Login from './login'
 import { Grid, Row, Col, Label } from 'react-bootstrap'
-import * as ReadableAPI from '../api/ReadableAPI'
-import { getCategories } from '../actions'
+// import * as ReadableAPI from '../api/ReadableAPI'
 import Categories from "./Categories";
 import PostsList from "./PostsList";
 import Post from './Post'
@@ -16,20 +15,7 @@ import Header from './Header'
 // https://react-bootstrap.github.io/components.html
 class App extends Component {
 
-  //todo: load categories directly on Categories Component
-  searchCategories = () => {
-    ReadableAPI.categories()
-    .then( (categories) => {
-      this.props.setCategories( { categories } )
-    })
-  }
-
-  componentDidMount() {
-    this.searchCategories()
-  }
-
   render() {
-    const { categoryList } = this.props
 
     return (
       <div>
@@ -38,7 +24,7 @@ class App extends Component {
 
             <Header />
 
-            <Categories categories={categoryList}/>
+            <Categories />
 
             <Row>
               <Col xs={1} sm={1} md={1} lg={1} />
@@ -64,9 +50,8 @@ class App extends Component {
   }
 }
 
-function mapStateToProps( { categories, login } ) {
+function mapStateToProps( { login } ) {
   return {
-    categoryList: categories.categories,
     loggedIn: login.loggedIn,
     user: login.user
   }
@@ -74,9 +59,6 @@ function mapStateToProps( { categories, login } ) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    setCategories: (data) => {
-      dispatch(getCategories(data))
-    }
   }
 }
 

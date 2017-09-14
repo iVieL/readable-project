@@ -30,3 +30,9 @@ export function getAll() {
     .then(res => res.json())
     .then(data => data)
 }
+
+export function postsByCategory(selected) {
+  return fetch(`${api}/${selected}/posts`, { headers })
+    .then(res => res.json())
+    .then(data => data)
+}

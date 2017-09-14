@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
 import {
   GET_CATEGORIES,
+  CHANGE_CATEGORY,
   LOGIN,
   POSTS
 } from '../actions'
@@ -33,12 +34,18 @@ function login(state = {user: 'Vielinko', loggedIn: true}, action) {
 }
 
 function postsReducer(state = {}, action) {
-  const {type, posts} = action
+  const {type, posts, filter } = action
   switch (type) {
     case POSTS:
       return {
         ...state,
-        posts
+        posts,
+        filter
+      }
+    case CHANGE_CATEGORY:
+      return {
+        ...state,
+        filter
       }
     default:
     return state
