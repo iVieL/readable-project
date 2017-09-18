@@ -8,14 +8,16 @@ import Header from './Header'
 // websites example using bootstrap: https://react.rocks/tag/Bootstrap
 // https://react-bootstrap.github.io/components.html
 class Home extends Component {
+
   render() {
-    console.log('route path: ', this.props.match)
+    const categoryName = this.props.match ? this.props.match.params.category: undefined
+
     return (
       <Grid fluid={true}>
 
         <Header />
 
-        <Categories />
+        <Categories selected={categoryName} />
 
         <Row>
           <Col xs={1} sm={1} md={1} lg={1} />
@@ -26,7 +28,7 @@ class Home extends Component {
           </Col>
         </Row>
 
-        <PostsList />
+        <PostsList  selected={categoryName}/>
 
       </Grid>
     )

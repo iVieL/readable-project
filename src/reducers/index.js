@@ -3,7 +3,9 @@ import {
   GET_CATEGORIES,
   CHANGE_CATEGORY,
   LOGIN,
-  POSTS
+  POSTS,
+  GET_POST,
+  CLEAR_POST
 } from '../actions'
 
 function categories(state = {}, action) {
@@ -34,7 +36,7 @@ function login(state = {user: 'Vielinko', loggedIn: true}, action) {
 }
 
 function postsReducer(state = {}, action) {
-  const {type, posts, filter } = action
+  const {type, posts, filter, post } = action
   switch (type) {
     case POSTS:
       return {
@@ -46,6 +48,16 @@ function postsReducer(state = {}, action) {
       return {
         ...state,
         filter: filter
+      }
+    case GET_POST:
+      return {
+        ...state,
+        post
+      }
+    case CLEAR_POST:
+      return {
+        ...state,
+        post: post
       }
     default:
       return state

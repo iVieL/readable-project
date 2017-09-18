@@ -3,8 +3,6 @@ import { Row, Col, Navbar, Nav, NavItem } from 'react-bootstrap'
 import { capitalize } from '../utils/helpers'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { getCategories, changeCategory } from '../actions'
-import * as ReadableAPI from '../api/ReadableAPI'
 
 class Categories extends Component {
 
@@ -12,33 +10,17 @@ class Categories extends Component {
     return name === selected ? "label label-success": "label label-info"
   }
 
-  getCategories = () => {
-    ReadableAPI.categories()
-    .then( (categories) => {
-      this.props.filterCategories( { categories } )
-    })
-  }
-
-  filterPosts = (categoryName) => {
-    this.props.changeCategory({ categoryName })
-  }
-
-  componentDidMount() {
-    this.getCategories()
-  }
-
-
   render() {
     const { categories, selected } = this.props
 
     return (
       <Row>
-        <Col xs={1} sm={1} md={1} lg={1}></Col>
+        <Col xs={1} sm={1} md={1} lg={1}/>
         <Col xs={8} sm={8} md={8} lg={8}>
           <Navbar>
             <Navbar.Header>
               <Navbar.Brand>
-                <a href="http://localhost:3000">Categories</a>
+                Categories
               </Navbar.Brand>
               <Navbar.Toggle />
             </Navbar.Header>
@@ -46,14 +28,14 @@ class Categories extends Component {
               <Nav>
                 { Array.isArray(categories) && categories.map( (category) => (
                   <NavItem
-                    onClick={ () => (this.filterPosts(category.path)) }
+                    href={`/${category.path}`}
                     key={category.name}
                     className={this.categorySelected(selected, category.name)}>
                     {capitalize(category.name)}
                   </NavItem>
                 ))}
                 <NavItem
-                  onClick={ () => this.filterPosts()}
+                  href="/"
                   className={this.categorySelected(selected, undefined)}>
                   All
                 </NavItem>
@@ -62,7 +44,7 @@ class Categories extends Component {
           </Navbar>
         </Col>
         <Col xs={1} sm={1} md={1} lg={1}>
-          <Link to="/newpost" className="btn btn-info">Add Post</Link>
+          <Link to="/post/new" className="btn btn-info">Add Post</Link>
         </Col>
       </Row>
     )
@@ -70,21 +52,9 @@ class Categories extends Component {
 }
 
 function mapStateToProps({ categories }) {
-  console.log('Categories->mapStateToProps');
   return {
     categories: categories.categories
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    filterCategories: (data) => {
-      dispatch(getCategories(data))
-    },
-    changeCategory: (data) => {
-      dispatch(changeCategory(data))
-    }
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Categories)
+export default connect(mapStateToProps)(Categories)

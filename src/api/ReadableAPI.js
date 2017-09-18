@@ -36,3 +36,9 @@ export function postsByCategory(selected) {
     .then(res => res.json())
     .then(data => data)
 }
+
+export function getPost(id) {
+  return fetch(`${api}/posts/${id}`, { headers })
+    .then(res => res.json())
+    .then(data => data)
+}

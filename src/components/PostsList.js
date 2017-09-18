@@ -1,39 +1,19 @@
 import React, { Component } from 'react'
 import { Row, Table, Col} from 'react-bootstrap'
 import { formatDate } from '../utils/helpers'
-import { posts } from '../actions'
+import { filterByCategory } from '../actions'
 import { connect } from 'react-redux'
-import * as ReadableAPI from '../api/ReadableAPI'
+import { Link } from 'react-router-dom'
 
 class PostsList extends Component {
 
-  filterByCategory = (categoryName) => {
-    categoryName = 'react'
-    console.log('selected: ', categoryName);
-    if(categoryName) {
-      ReadableAPI.postsByCategory(categoryName)
-      .then( (posts) => {
-        console.log("posts: ", posts)
-        this.props.allPosts( { posts, filter: categoryName } )
-      })
-
-    } else {
-      ReadableAPI.getAll()
-      .then( (posts) => {
-        console.log("posts: ", posts)
-        this.props.allPosts( { posts, filter: undefined })
-      })
-    }
-
-  }
 
   componentDidMount() {
-    this.filterByCategory()
+    this.props.allPosts(this.props.selected)
   }
 
   render() {
     const { list } = this.props
-    console.log(this.props);
     return (
       <Row>
         <Col xs={1} sm={1} md={1} lg={1} />
@@ -51,7 +31,9 @@ class PostsList extends Component {
               { list && list.map((post) => (
                 <tr key={post.id}>
                   <td className="col-md-1">{post.voteScore}</td>
-                  <td className="col-md-6">{post.title}</td>
+                  <td className="col-md-6">
+                    <Link to={`/post/view/${post.id}`} >{post.title}</Link>
+                  </td>
                   <td className="col-md-1">{post.author}</td>
                   <td className="col-md-2">{formatDate(post.timestamp)}</td>
                 </tr>
@@ -60,6 +42,7 @@ class PostsList extends Component {
             </tbody>
 
           </Table>
+{/*
           <div>
             <nav aria-label="Page navigation">
               <ul className="pagination pagination-sm">
@@ -81,6 +64,7 @@ class PostsList extends Component {
               </ul>
             </nav>
           </div>
+*/}
         </Col>
       </Row>
     )
@@ -88,18 +72,15 @@ class PostsList extends Component {
 }
 
 function mapStateToProps( { postsReducer } ) {
-  console.log('PostsList->mapStateToProps');
-  console.log('post reducer: ', postsReducer)
   return {
-    list: postsReducer.posts,
-    category: postsReducer.filter
+    list: postsReducer.posts
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    allPosts: (data) => {
-      dispatch(posts(data))
+    allPosts: (category) => {
+      dispatch(filterByCategory(category))
     }
   }
 }
