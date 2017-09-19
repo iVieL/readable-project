@@ -34,25 +34,41 @@ class Post extends Component {
     })
   }
 
+  isNew = () => ( this.props.new )
+  isEdit = () => ( this.props.edit )
+
   submitPost = (e) => {
     //todo: validate for loggedIn user, before show component or execute an action?
     e.preventDefault()
     //todo: based on view type, go to update or new post
     const values = serializeform(e.target, {hash: true})
-    const newValues = {
-      ...values,
-      id: uniqueId(),
-      timestamp: Date.now(),
-      author: this.props.user
-    }
 
-    ReadableAPI.newPost(newValues)
-      .then( (res) => {
-          console.log(res)
-          const { history } = this.props
-          history && history.push('/')
-        }
-      )
+    if(this.isNew()) {
+      const newValues = {
+        ...values,
+        id: uniqueId(),
+        timestamp: Date.now(),
+        author: this.props.user
+      }
+
+      ReadableAPI.newPost(newValues)
+        .then((res) => {
+            console.log(res)
+            const {history} = this.props
+            history && history.push('/')
+          }
+        )
+    } else if(this.isEdit()) {
+      const newValues = {
+        ...this.props.post,
+        ...values
+      }
+      console.log(newValues)
+    }
+  }
+
+  sameOwner = () => {
+    return this.props.post && this.props.user === this.props.post.author
   }
 
   componentDidMount() {
@@ -65,6 +81,21 @@ class Post extends Component {
   componentWillUnmount() {
     this.props.clearPost()
   }
+
+  componentWillReceiveProps() {
+    console.log(this.props)
+  }
+
+  /*componentDidUpdate() {
+    if (this.props.post) {
+      const { post } = this.props
+      this.setState({
+        title: post.title,
+        body: post.body,
+        category: post.category
+      })
+    }
+  }*/
 
   canEditInputText = () => {
     return !(this.props.view || this.props.delete)
@@ -91,8 +122,6 @@ class Post extends Component {
       return "Add"
     } else if(this.props.edit) {
       return "Change"
-    } else if(this.props.delete) {
-      return "Delete"
     }
   }
 
@@ -108,9 +137,6 @@ class Post extends Component {
       author = post.author
       votes = post.voteScore
       timestamp = post.timestamp
-      title = post.title
-      body = post.body
-      category = post.category
     }
 
     return (
@@ -195,11 +221,11 @@ class Post extends Component {
                footer={
                  <Row>
                    <Col xs={1} sm={1} md={1} lg={1}>
-                     <Link to={`/post/edit/${id}`} className="btn btn-warning">Edit</Link>
+                     {this.sameOwner() && (<Link to={`/post/edit/${id}`} className="btn btn-warning">Edit</Link>)}
                    </Col>
                    <Col xs={1} sm={1} md={1} lg={1}>
                      {/*todo: shows only if author is logged in*/}
-                     <Link to="/" className="btn btn-warning">Delete</Link>
+                     {this.sameOwner() && (<Link to="/" className="btn btn-warning">Delete</Link>)}
                    </Col>
                    <Col xs={8} sm={8} md={8} lg={8}>
                      Last update: {formatDate(timestamp)}
