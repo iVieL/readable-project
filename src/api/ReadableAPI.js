@@ -25,6 +25,17 @@ export function newPost(body) {
   }).then(res => res.json())
 }
 
+export function editPost(body) {
+  return fetch(`${api}/posts/${body.id}`, {
+    method: 'PUT',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body)
+  }).then(res => res.json())
+}
+
 export function getAll() {
   return fetch(`${api}/posts`, { headers })
     .then(res => res.json())

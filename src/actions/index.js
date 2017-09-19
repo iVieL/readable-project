@@ -61,7 +61,7 @@ export function clearPost() {
 }
 
 export const fetchPost = (id) => (dispatch) => {
-  ReadableAPI.getPost(id)
+  return ReadableAPI.getPost(id)
     .then( (post) => {
       dispatch(getPost(post))
     })
@@ -82,4 +82,3 @@ export const filterByCategory = (categoryName) => (dispatch) => {
   }
 
 }
-

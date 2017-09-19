@@ -17,6 +17,7 @@ class Post extends Component {
   }
 
   updateTitle = (e) => {
+    console.log('');
     this.setState({
       title: e.target.value
     })
@@ -53,7 +54,7 @@ class Post extends Component {
 
       ReadableAPI.newPost(newValues)
         .then((res) => {
-            console.log(res)
+            console.log('new post res: ', res)
             const {history} = this.props
             history && history.push('/')
           }
@@ -64,6 +65,12 @@ class Post extends Component {
         ...values
       }
       console.log(newValues)
+      ReadableAPI.editPost(newValues)
+        .then( (res) => {
+          console.log('edit post res: ', res)
+          const {history} = this.props
+          history && history.push('/')
+        })
     }
   }
 
@@ -74,7 +81,15 @@ class Post extends Component {
   componentDidMount() {
     if(this.props.match) {
       const id = this.props.match.params.id
-      this.props.retrievePost(id);
+      this.props.retrievePost(id)
+      .then( () => {
+        const { post } = this.props
+        this.setState({
+          title: post.title,
+          body: post.body,
+          category: post.category
+        })
+      })
     }
   }
 
@@ -82,20 +97,6 @@ class Post extends Component {
     this.props.clearPost()
   }
 
-  componentWillReceiveProps() {
-    console.log(this.props)
-  }
-
-  /*componentDidUpdate() {
-    if (this.props.post) {
-      const { post } = this.props
-      this.setState({
-        title: post.title,
-        body: post.body,
-        category: post.category
-      })
-    }
-  }*/
 
   canEditInputText = () => {
     return !(this.props.view || this.props.delete)
