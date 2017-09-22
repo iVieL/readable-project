@@ -2,22 +2,22 @@ import React, { Component } from 'react';
 import * as ReadableAPI from '../api/ReadableAPI'
 import { connect } from 'react-redux'
 import serializeform from 'form-serialize'
-import { FormGroup, ControlLabel, FormControl, Row, Col, Button, Panel, Label } from 'react-bootstrap'
+import { FormGroup, ControlLabel, FormControl, Row, Col, Button, Panel, Label, Modal } from 'react-bootstrap'
 import { uniqueId, capitalize, formatDate } from '../utils/helpers'
 import { Link } from 'react-router-dom'
 import Header from './Header'
 import { fetchPost, clearPost } from '../actions'
-
+// import Modal from 'react-modal'
 
 class Post extends Component {
   state = {
     title: '',
     body: '',
-    category: ''
+    category: '',
+    deleteModalOpen: false
   }
 
   updateTitle = (e) => {
-    console.log('');
     this.setState({
       title: e.target.value
     })
@@ -41,7 +41,7 @@ class Post extends Component {
   submitPost = (e) => {
     //todo: validate for loggedIn user, before show component or execute an action?
     e.preventDefault()
-    //todo: based on view type, go to update or new post
+
     const values = serializeform(e.target, {hash: true})
 
     if(this.isNew()) {
@@ -54,7 +54,6 @@ class Post extends Component {
 
       ReadableAPI.newPost(newValues)
         .then((res) => {
-            console.log('new post res: ', res)
             const {history} = this.props
             history && history.push('/')
           }
@@ -64,14 +63,18 @@ class Post extends Component {
         ...this.props.post,
         ...values
       }
-      console.log(newValues)
       ReadableAPI.editPost(newValues)
-        .then( (res) => {
-          console.log('edit post res: ', res)
+        .then( () => {
           const {history} = this.props
           history && history.push('/')
         })
     }
+  }
+
+  deletePost = (e) => {
+    //todo: delete API call
+    const {history} = this.props
+    history && history.push('/')
   }
 
   sameOwner = () => {
@@ -99,7 +102,7 @@ class Post extends Component {
 
 
   canEditInputText = () => {
-    return !(this.props.view || this.props.delete)
+    return this.props.new || (this.sameOwner() && this.props.edit)
   }
 
   showButton = () => {
@@ -126,9 +129,22 @@ class Post extends Component {
     }
   }
 
+  openDeleteModal = () => {
+    this.setState(() => ({
+      deleteModalOpen: true
+    }))
+  }
+
+  closeDeleteModal = () => {
+    this.setState(() => ({
+      deleteModalOpen: false
+    }))
+  }
+
+
   render() {
     const { categories, post } = this.props
-    let {title, body, category} = this.state
+    let {title, body, category, deleteModalOpen} = this.state
     let author = ''
     let votes = 1
     let timestamp = 0
@@ -226,7 +242,7 @@ class Post extends Component {
                    </Col>
                    <Col xs={1} sm={1} md={1} lg={1}>
                      {/*todo: shows only if author is logged in*/}
-                     {this.sameOwner() && (<Link to="/" className="btn btn-warning">Delete</Link>)}
+                     {this.sameOwner() && (<Button onClick={() => this.openDeleteModal()} className="btn btn-warning">Delete</Button>)}
                    </Col>
                    <Col xs={8} sm={8} md={8} lg={8}>
                      Last update: {formatDate(timestamp)}
@@ -241,6 +257,18 @@ class Post extends Component {
             </Col>
           </Row>
         )}
+
+        <Modal
+          show={deleteModalOpen}
+          onHide={() => this.closeDeleteModal()}
+        >
+          <Modal.Header closeButton ><Label className="label label-warning">Delete Confirmation!</Label></Modal.Header>
+          <Modal.Body><span>Are you sure to delete the post? <b>{title}</b></span></Modal.Body>
+          <Modal.Footer>
+            <Button onClick={this.closeDeleteModal}>Close</Button>
+            <Button bsStyle="primary" onClick={this.deletePost}>Delete!</Button>
+          </Modal.Footer>
+        </Modal>
       </div>
     )
   }
