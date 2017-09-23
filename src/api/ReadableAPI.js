@@ -36,10 +36,21 @@ export function editPost(body) {
   }).then(res => res.json())
 }
 
+export function deletePost(body) {
+  return fetch(`${api}/posts/${body.id}`, {
+    method: 'DELETE',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body)
+  }).then( res => console.log('deleted!?', res))
+}
+
 export function getAll() {
   return fetch(`${api}/posts`, { headers })
     .then(res => res.json())
-    .then(data => data)
+    .then(data => data.filter( post => !post.deleted))
 }
 
 export function postsByCategory(selected) {
@@ -53,3 +64,10 @@ export function getPost(id) {
     .then(res => res.json())
     .then(data => data)
 }
+
+export function postComments(id) {
+  return fetch(`${api}/posts/${id}/comments`, { headers })
+    .then(res => res.json())
+    .then(data => data.filter( comment => !comment.deleted))
+}
+

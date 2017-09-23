@@ -1,11 +1,11 @@
 import * as ReadableAPI from '../api/ReadableAPI'
 
 export const GET_CATEGORIES = 'GET_CATEGORIES'
-export const CHANGE_CATEGORY = 'CHANGE_CATEGORY'
 export const LOGIN = 'LOGIN'
 export const POSTS = 'POSTS'
 export const GET_POST = 'GET_POST'
 export const CLEAR_POST = 'CLEAR_POST'
+export const POST_COMMENTS = 'POST_COMMENTS'
 
 export function getCategories( { categories } ) {
   return {
@@ -28,13 +28,6 @@ export function session( { user, loggedIn }) {
     type: LOGIN,
     user: user,
     loggedIn: loggedIn
-  }
-}
-
-export function changeCategory({ categoryName }) {
-  return {
-    type: CHANGE_CATEGORY,
-    filter: categoryName
   }
 }
 
@@ -82,3 +75,19 @@ export const filterByCategory = (categoryName) => (dispatch) => {
   }
 
 }
+
+export function postCommnetsAction( { id, comments } ) {
+  return {
+    type: POST_COMMENTS,
+    id: id,
+    comments: comments
+  }
+}
+
+export const fetchComments = (id) => (dispatch) => {
+  ReadableAPI.postComments(id)
+    .then( (comments) => {
+      dispatch(postCommnetsAction({ id, comments }))
+    })
+}
+

@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux'
 import {
   GET_CATEGORIES,
-  CHANGE_CATEGORY,
   LOGIN,
   POSTS,
   GET_POST,
-  CLEAR_POST
+  CLEAR_POST,
+  POST_COMMENTS
 } from '../actions'
 
 function categories(state = {}, action) {
@@ -44,11 +44,6 @@ function postsReducer(state = {}, action) {
         posts,
         filter
       }
-    case CHANGE_CATEGORY:
-      return {
-        ...state,
-        filter: filter
-      }
     case GET_POST:
       return {
         ...state,
@@ -64,8 +59,23 @@ function postsReducer(state = {}, action) {
   }
 }
 
+function commentsReducer(state = {}, action) {
+  const { type, id, comments } = action
+  switch (type) {
+    case POST_COMMENTS:
+      return {
+        ...state,
+        id,
+        comments
+      }
+    default:
+      return state
+  }
+}
+
 export default combineReducers( {
   categories,
   postsReducer,
-  login
+  login,
+  commentsReducer
 } )

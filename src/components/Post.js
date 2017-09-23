@@ -7,7 +7,7 @@ import { uniqueId, capitalize, formatDate } from '../utils/helpers'
 import { Link } from 'react-router-dom'
 import Header from './Header'
 import { fetchPost, clearPost } from '../actions'
-// import Modal from 'react-modal'
+import CommentsList from './CommentsList'
 
 class Post extends Component {
   state = {
@@ -72,9 +72,17 @@ class Post extends Component {
   }
 
   deletePost = (e) => {
-    //todo: delete API call
-    const {history} = this.props
-    history && history.push('/')
+    e.preventDefault()
+    const values = serializeform(e.target, {hash: true})
+    const post = {
+      ...this.props.post,
+      ...values
+    }
+    ReadableAPI.deletePost(post)
+      .then( () => {
+        const {history} = this.props
+        history && history.push('/')
+      })
   }
 
   sameOwner = () => {
@@ -215,6 +223,7 @@ class Post extends Component {
           </Row>
         )}
         {!this.canEditInputText() && (
+          <div>
           <Row>
             <Col xs={1} sm={1} md={1} lg={1} />
             <Col xs={10} sm={10} md={10} lg={10}>
@@ -241,7 +250,6 @@ class Post extends Component {
                      {this.sameOwner() && (<Link to={`/post/edit/${id}`} className="btn btn-warning">Edit</Link>)}
                    </Col>
                    <Col xs={1} sm={1} md={1} lg={1}>
-                     {/*todo: shows only if author is logged in*/}
                      {this.sameOwner() && (<Button onClick={() => this.openDeleteModal()} className="btn btn-warning">Delete</Button>)}
                    </Col>
                    <Col xs={8} sm={8} md={8} lg={8}>
@@ -256,6 +264,13 @@ class Post extends Component {
               </Panel>
             </Col>
           </Row>
+          <Row>
+          </Row>
+            <Col xs={2} sm={2} md={2} lg={2}/>
+            <Col xs={6} sm={6} md={6} lg={6}>
+              <CommentsList postId={this.props.match.params.id}/>
+            </Col>
+          </div>
         )}
 
         <Modal
