@@ -68,6 +68,5 @@ export function getPost(id) {
 export function postComments(id) {
   return fetch(`${api}/posts/${id}/comments`, { headers })
     .then(res => res.json())
-    .then(data => data.filter( comment => !comment.deleted))
+    .then(data => data.filter( comment => !comment.deleted && !comment.parentDeleted))
 }
-

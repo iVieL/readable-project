@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom'
 import Header from './Header'
 import { fetchPost, clearPost } from '../actions'
 import CommentsList from './CommentsList'
+import Score from './Score'
 
 class Post extends Component {
   state = {
@@ -230,10 +231,10 @@ class Post extends Component {
               <Panel
                 header={
                   <Row>
-                    <Col xs={1} sm={1} md={1} lg={1}>
-                      <Label className="label label-warning">{votes}</Label>
+                    <Col xs={2} sm={2} md={2} lg={2}>
+                      <Score votes={votes}/>
                     </Col>
-                    <Col xs={8} sm={8} md={8} lg={8}>
+                    <Col xs={7} sm={7} md={7} lg={7}>
                       <b>{title}</b>
                     </Col>
                     <Col xs={1} sm={1} md={1} lg={1}>
@@ -266,8 +267,8 @@ class Post extends Component {
           </Row>
           <Row>
           </Row>
-            <Col xs={2} sm={2} md={2} lg={2}/>
-            <Col xs={6} sm={6} md={6} lg={6}>
+            <Col xs={1} sm={1} md={1} lg={1}/>
+            <Col xs={8} sm={8} md={8} lg={8}>
               <CommentsList postId={this.props.match.params.id}/>
             </Col>
           </div>
