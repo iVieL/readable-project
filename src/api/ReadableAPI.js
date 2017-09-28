@@ -65,8 +65,35 @@ export function getPost(id) {
     .then(data => data)
 }
 
+export function votePost(id, option) {
+  return fetch(`${api}/posts/${id}`, {
+    method: 'POST',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify( { option } )
+  })
+    .then(res => res.json())
+    .then(data => data)
+}
+
 export function postComments(id) {
   return fetch(`${api}/posts/${id}/comments`, { headers })
     .then(res => res.json())
     .then(data => data.filter( comment => !comment.deleted && !comment.parentDeleted))
 }
+
+export function voteComment(id, option) {
+  return fetch(`${api}/comments/${id}`, {
+    method: 'POST',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify( { option } )
+  })
+    .then(res => res.json())
+    .then(data => data)
+}
+

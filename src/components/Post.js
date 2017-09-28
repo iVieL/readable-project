@@ -232,7 +232,7 @@ class Post extends Component {
                 header={
                   <Row>
                     <Col xs={2} sm={2} md={2} lg={2}>
-                      <Score votes={votes}/>
+                      <Score postVotes={votes} postId={id}/>
                     </Col>
                     <Col xs={7} sm={7} md={7} lg={7}>
                       <b>{title}</b>

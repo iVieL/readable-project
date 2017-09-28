@@ -6,6 +6,7 @@ export const POSTS = 'POSTS'
 export const GET_POST = 'GET_POST'
 export const CLEAR_POST = 'CLEAR_POST'
 export const POST_COMMENTS = 'POST_COMMENTS'
+export const GET_COMMENT = 'GET_COMMENT'
 
 export function getCategories( { categories } ) {
   return {
@@ -60,6 +61,13 @@ export const fetchPost = (id) => (dispatch) => {
     })
 }
 
+export const votePost = (option, postId) => (dispatch) => {
+  return ReadableAPI.votePost(postId, option)
+    .then( (post) => {
+      dispatch(getPost(post))
+    })
+}
+
 export const filterByCategory = (categoryName) => (dispatch) => {
   if(categoryName) {
     ReadableAPI.postsByCategory(categoryName)
@@ -88,6 +96,20 @@ export const fetchComments = (id) => (dispatch) => {
   ReadableAPI.postComments(id)
     .then( (comments) => {
       dispatch(postCommnetsAction({ id, comments }))
+    })
+}
+
+export function getComment( comment ) {
+  return {
+    type: GET_COMMENT,
+    comment
+  }
+}
+
+export const voteComment = (option, commentId) => (dispatch) => {
+  return ReadableAPI.voteComment(commentId, option)
+    .then( (comment) => {
+      dispatch(getComment(comment))
     })
 }
 

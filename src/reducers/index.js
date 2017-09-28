@@ -5,7 +5,8 @@ import {
   POSTS,
   GET_POST,
   CLEAR_POST,
-  POST_COMMENTS
+  POST_COMMENTS,
+  GET_COMMENT
 } from '../actions'
 
 function categories(state = {}, action) {
@@ -60,13 +61,23 @@ function postsReducer(state = {}, action) {
 }
 
 function commentsReducer(state = {}, action) {
-  const { type, id, comments } = action
+  const { type, id, comments, comment } = action
   switch (type) {
     case POST_COMMENTS:
       return {
         ...state,
         id,
         comments
+      }
+    case GET_COMMENT:
+      return {
+        ...state,
+        comments: [...state.comments.map( (c) => {
+          if(c.id === comment.id) {
+            c.voteScore = comment.voteScore
+          }
+          return c
+        })]
       }
     default:
       return state

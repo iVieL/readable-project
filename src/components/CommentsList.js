@@ -11,8 +11,7 @@ class CommentsList extends Component {
   }
 
   render() {
-    const { comments } = this.props
-    console.log('comments: ',this.props.comments)
+    const { comments, postId } = this.props
     return (
       <div>
         { comments && comments.map( (comment) => (
@@ -22,7 +21,7 @@ class CommentsList extends Component {
                 header={
                   <Row>
                     <Col xs={2} sm={2} md={2} lg={2}>
-                      <Score votes={comment.voteScore} />
+                      <Score commentVotes={comment.voteScore} commentId={comment.id} postId={postId}/>
                     </Col>
                     <Col xs={6} sm={6} md={6} lg={6}>
                       <h6>Posted at {formatDate(comment.timestamp)}</h6>
