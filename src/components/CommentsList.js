@@ -58,7 +58,10 @@ class CommentsList extends Component {
         { comments && comments.map( (comment) => (
           <Row key={comment.id}>
             <Col xs={12} sm={12} md={12} lg={12}>
-              <Comment comment={comment} parentId={postId} />
+              <Comment
+                comment={comment}
+                parentId={postId}
+                edit={() => this.openEditModal(comment)}/>
 {/*
               <Panel className="panel panel-info"
                 header={
