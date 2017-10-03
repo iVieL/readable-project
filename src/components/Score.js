@@ -42,7 +42,6 @@ class Score extends Component {
 function mapStateToProps({ postsReducer, commentsReducer }) {
   return {
     postVotes: postsReducer.post ? postsReducer.post.voteScore: 0,
-    //commentVotes: commentsReducer.comment ? commentsReducer.comment.voteScore: undefined
   }
 }
 

@@ -77,7 +77,8 @@ function commentsReducer(state = {}, action) {
             c.voteScore = comment.voteScore
           }
           return c
-        })]
+        })],
+        myComment: comment
       }
     default:
       return state
