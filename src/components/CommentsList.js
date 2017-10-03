@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
-import { Row, Col, Panel, Label } from 'react-bootstrap'
-import { formatDate } from '../utils/helpers'
+import { Row, Col } from 'react-bootstrap'
 import { fetchComments } from '../actions'
 import { connect } from 'react-redux'
-import Score from './Score'
+import Comment from './Comment'
 
 class CommentsList extends Component {
   componentDidMount() {
@@ -17,6 +16,8 @@ class CommentsList extends Component {
         { comments && comments.map( (comment) => (
           <Row key={comment.id}>
             <Col xs={12} sm={12} md={12} lg={12}>
+              <Comment comment={comment} parentId={postId} />
+{/*
               <Panel className="panel panel-info"
                 header={
                   <Row>
@@ -34,6 +35,7 @@ class CommentsList extends Component {
                }>
                 {comment.body}
               </Panel>
+*/}
             </Col>
           </Row>
         ))}
