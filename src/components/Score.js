@@ -16,7 +16,8 @@ class Score extends Component {
 
   render() {
     const { postVotes, commentVotes } = this.props
-    const votes = commentVotes ? commentVotes: postVotes
+    const votes = commentVotes !== undefined ? commentVotes: postVotes
+
     return (
       <div >
         <Label className="label label-warning">{votes}</Label>

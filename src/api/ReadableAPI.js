@@ -97,3 +97,24 @@ export function voteComment(id, option) {
     .then(data => data)
 }
 
+export function deleteComment(id) {
+  return fetch(`${api}/comments/${id}`, {
+    method: 'DELETE',
+    headers
+  })
+    .then(res => res.json())
+    .then(data => data)
+}
+
+export function editComment(id, body) {
+  return fetch(`${api}/comments/${id}`, {
+    method: 'PUT',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify( body )
+  })
+    .then(res => res.json())
+    .then(data => data)
+}
