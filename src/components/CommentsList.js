@@ -14,7 +14,6 @@ class CommentsList extends Component {
   }
 
   openDeleteModal = (id) => {
-    console.log('openDeleteModal', id);
     this.setState(() => ({
       deleteModalOpen: true,
       editModalOpen: false,
@@ -42,9 +41,24 @@ class CommentsList extends Component {
     }))
   }
 
-  editComment = () => {
-    //timestamp: Date.now(),
-
+  editComment = (id, body) => {
+    if(id === this.state.currentComment.id) {
+      ReadableAPI.editComment(id, {
+        id: id,
+        timestamp: Date.now(),
+        body: body
+      })
+      .then( () => {
+        this.setState({
+          deleteModalOpen: false,
+          editModalOpen: false,
+          currentComment: undefined
+        })
+      })
+      .then( () => {
+        this.props.fetchComments(this.props.postId)
+      })
+    }
   }
 
   deleteComment = (e) => {
@@ -66,6 +80,7 @@ class CommentsList extends Component {
     const { editModalOpen, deleteModalOpen, currentComment } = this.state
 
     console.log('currentComment: ', currentComment)
+    console.log('comments', comments)
 
     return (
       <div>
@@ -83,29 +98,10 @@ class CommentsList extends Component {
               <Comment
                 comment={comment}
                 parentId={postId}
-                edit={() => this.openEditModal(comment)}
+                // edit={() => this.openEditModal(comment)}
                 onEdit={this.openEditModal}
                 onDelete={this.openDeleteModal}
               />
-{/*
-              <Panel className="panel panel-info"
-                header={
-                  <Row>
-                    <Col xs={2} sm={2} md={2} lg={2}>
-                      <Score commentVotes={comment.voteScore} commentId={comment.id} postId={postId}/>
-                    </Col>
-                    <Col xs={6} sm={6} md={6} lg={6}>
-                      <h6>Posted at {formatDate(comment.timestamp)}</h6>
-                    </Col>
-                    <Col xs={2} sm={2} md={2} lg={2}/>
-                    <Col xs={2} sm={2} md={2} lg={2}>
-                      <Label className="label label-default">author: {comment.author}</Label>
-                    </Col>
-                  </Row>
-               }>
-                {comment.body}
-              </Panel>
-*/}
             </Col>
           </Row>
         ))}
@@ -120,7 +116,13 @@ class CommentsList extends Component {
       >
         <Modal.Header closeButton ><Label className="label label-info">Comment</Label></Modal.Header>
         <Modal.Body>
-          <span>Tetst edit/new</span></Modal.Body>
+          <Comment
+            comment={currentComment}
+            parentId={postId}
+            onApply={this.editComment}
+            editable
+          />
+        </Modal.Body>
         <Modal.Footer>
           <Button onClick={this.closeEditModal}>Close</Button>
           {/* <Button bsStyle="primary" onClick={this.deletePost}>Delete!</Button> */}
