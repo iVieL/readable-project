@@ -27,7 +27,7 @@ class Comment extends Component {
   }
 
   actionButtonText = () => {
-    if(this.props.new) {
+    if(!this.props.comment) {
       return "Add"
     } else if(this.props.editable) {
       return "Change"
@@ -52,7 +52,9 @@ class Comment extends Component {
     })
 
     cleanThings.then( (data) => {
-      this.props.onApply(data.id, data.body)
+      //todo: apply edit or apply new one
+      console.log('que hay? ', this.props.comment, this.props.parentId, data.id, data.body);
+      //this.props.onApply(data.id, data.body)
     })
 
   }
@@ -77,7 +79,6 @@ class Comment extends Component {
     const { id, parentId, timestamp, author, body } = this.state
     const { onEdit, onDelete, comment, myComment } = this.props
     let { votes } = this.state
-    console.log('state! ', this.state, comment);
     if(myComment && myComment.id === id) {
       votes = myComment.voteScore
     }

@@ -5,6 +5,7 @@ import { fetchComments } from '../actions'
 import { connect } from 'react-redux'
 import Comment from './Comment'
 import * as ReadableAPI from '../api/ReadableAPI'
+import { hashCode } from '../utils/helpers'
 
 class CommentsList extends Component {
   state = {
@@ -61,6 +62,26 @@ class CommentsList extends Component {
     }
   }
 
+  addComment = (id, body) => {
+    if(id === this.state.currentComment.id) {
+      ReadableAPI.editComment(id, {
+        id: id,
+        timestamp: Date.now(),
+        body: body
+      })
+      .then( () => {
+        this.setState({
+          deleteModalOpen: false,
+          editModalOpen: false,
+          currentComment: undefined
+        })
+      })
+      .then( () => {
+        this.props.fetchComments(this.props.postId)
+      })
+    }
+  }
+
   deleteComment = (e) => {
     e.preventDefault()
     ReadableAPI.deleteComment(this.state.currentCommentId)
@@ -70,6 +91,13 @@ class CommentsList extends Component {
       })
   }
 
+  getCommentId = (comment) => {
+    if(comment) {
+      return comment.id + hashCode(comment.body)
+    } else {
+      return ''
+    }
+  }
 
   componentDidMount() {
     this.props.fetchComments(this.props.postId)
@@ -79,9 +107,7 @@ class CommentsList extends Component {
     const { comments, postId } = this.props
     const { editModalOpen, deleteModalOpen, currentComment } = this.state
 
-    console.log('currentComment: ', currentComment)
-    console.log('comments', comments)
-
+    console.log('currentComment: ', currentComment);
     return (
       <div>
         <Row>
@@ -93,12 +119,11 @@ class CommentsList extends Component {
           </Col>
         </Row>
         { comments && comments.map( (comment) => (
-          <Row key={comment.id}>
+          <Row key={this.getCommentId(comment)}>
             <Col xs={12} sm={12} md={12} lg={12}>
               <Comment
                 comment={comment}
                 parentId={postId}
-                // edit={() => this.openEditModal(comment)}
                 onEdit={this.openEditModal}
                 onDelete={this.openDeleteModal}
               />
@@ -120,12 +145,12 @@ class CommentsList extends Component {
             comment={currentComment}
             parentId={postId}
             onApply={this.editComment}
+            onNew={this.newComment}
             editable
           />
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={this.closeEditModal}>Close</Button>
-          {/* <Button bsStyle="primary" onClick={this.deletePost}>Delete!</Button> */}
         </Modal.Footer>
       </Modal>
 
