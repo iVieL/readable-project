@@ -4,6 +4,10 @@ import { Row, Col, Label } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
 class Header extends Component {
+
+  showButton = () => {
+    return !this.props.hide
+  }
   render() {
     const { loggedIn, user } = this.props
     return (
@@ -14,7 +18,9 @@ class Header extends Component {
           </h3>
         </Col>
         <Col xs={3} sm={3} md={3} lg={3}>
-          <Link to="/login" className="btn btn-success">{ loggedIn ?  user: 'Login'}</Link>
+          {this.showButton() && (
+            <Link to="/login" className="btn btn-success">{ loggedIn ?  user: 'Login'}</Link>
+          )}
         </Col>
       </Row>
 
