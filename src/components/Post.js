@@ -114,6 +114,11 @@ class Post extends Component {
     return this.props.new || (this.sameOwner() && this.props.edit)
   }
 
+  isDeleted = () => {
+    const { post } = this.props
+    return post && !post.title && !post.body
+  }
+
   showButton = () => {
     return !this.props.view
   }
@@ -164,7 +169,23 @@ class Post extends Component {
       votes = post.voteScore
       timestamp = post.timestamp
     }
+    console.log('isDeleted', this.isDeleted());
+    // - ordenar post por votos o fecha
+    // - sumarizar comentarios en tabla de posts
+    // - validar post borrado usando URL (clavos con Login)
+    //
+    //
+    //
+    // deleted
+    // http://localhost:3000/post/view/_20mxemkk9
+    //
+    // http://localhost:3000/post/edit/_20mxemkk9
 
+    if(this.isDeleted()) {
+      <div>
+        <Link to="/" className="btn btn-danger">Back</Link>
+      </div>
+    } else
     return (
       <div>
         <Header />
@@ -227,7 +248,7 @@ class Post extends Component {
           <div>
           <Row>
             <Col xs={1} sm={1} md={1} lg={1} />
-            <Col xs={10} sm={10} md={10} lg={10}>
+              <Col xs={10} sm={10} md={10} lg={10}>
               <Panel
                 header={
                   <Row>
@@ -269,13 +290,13 @@ class Post extends Component {
             </Col>
           </Row>
           <Row>
-          </Row>
             <Col xs={1} sm={1} md={1} lg={1}/>
             <Col xs={8} sm={8} md={8} lg={8}>
               <CommentsList postId={this.props.match.params.id}/>
             </Col>
+          </Row>
           </div>
-        )}
+          )}
 
         <Modal
           show={deleteModalOpen}

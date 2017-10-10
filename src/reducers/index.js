@@ -48,7 +48,7 @@ function postsReducer(state = {}, action) {
     case GET_POST:
       return {
         ...state,
-        post
+        post: post
       }
     case CLEAR_POST:
       return {

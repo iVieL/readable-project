@@ -18,7 +18,8 @@ class App extends Component {
 
   render() {
     const { loggedIn } = this.props
-
+    console.log(this.props);
+    console.log(this.props.location.pathname)
     return (
       <div>
         <Switch>
@@ -26,13 +27,13 @@ class App extends Component {
             <Login history={history}/>
           )}/>
 
-          {!loggedIn && (
+          {/* {!loggedIn && (
             <Redirect to={{
               pathname: '/login',
-              state: {from: '/'}
+              state: {from: this.props.location.pathname}
             }}
           />
-          )}
+          )} */}
 
           {/*https://medium.com/@pshrmn/a-simple-react-router-v4-tutorial-7f23ff27adf*/}
           <Route exact path='/' component={Home}/>

@@ -112,4 +112,3 @@ export const voteComment = (option, commentId) => (dispatch) => {
       dispatch(getComment(comment))
     })
 }
-
