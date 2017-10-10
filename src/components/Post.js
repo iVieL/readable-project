@@ -152,7 +152,7 @@ class Post extends Component {
 
 
   render() {
-    const { categories, post } = this.props
+    const { categories, post, commentsLength } = this.props
     let {title, body, category, deleteModalOpen} = this.state
     let author = ''
     let votes = 1
@@ -253,8 +253,11 @@ class Post extends Component {
                    <Col xs={1} sm={1} md={1} lg={1}>
                      {this.sameOwner() && (<Button onClick={() => this.openDeleteModal()} className="btn btn-warning">Delete</Button>)}
                    </Col>
-                   <Col xs={8} sm={8} md={8} lg={8}>
-                     Last update: {formatDate(timestamp)}
+                   <Col xs={4} sm={4} md={4} lg={4}>
+                     <span className="glyphicon">Last update: {formatDate(timestamp)}</span>
+                   </Col>
+                   <Col xs={4} sm={4} md={4} lg={4}>
+                     {commentsLength > 0 && (<span className="glyphicon glyphicon-comment">{commentsLength} comment(s).</span>)}
                    </Col>
                    <Col xs={2} sm={2} md={2} lg={2}>
                      <Link to="/" className="btn btn-danger">Back</Link>
@@ -290,11 +293,12 @@ class Post extends Component {
   }
 }
 
-function mapStateToProps({ login, categories, postsReducer }) {
+function mapStateToProps({ login, categories, postsReducer, commentsReducer }) {
   return {
     user: login.user,
     categories: categories.categories,
-    post: postsReducer.post
+    post: postsReducer.post,
+    commentsLength: commentsReducer.comments ? commentsReducer.comments.length: 0
   }
 }
 

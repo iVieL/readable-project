@@ -118,3 +118,16 @@ export function editComment(id, body) {
     .then(res => res.json())
     .then(data => data)
 }
+
+export function newComment(body) {
+  return fetch(`${api}/comments`, {
+    method: 'POST',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body)
+  }).then(res => res.json())
+}
+
+

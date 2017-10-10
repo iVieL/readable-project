@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
 import { Row, Col, Label, Button, Modal } from 'react-bootstrap'
-// import { formatDate } from '../utils/helpers'
 import { fetchComments } from '../actions'
 import { connect } from 'react-redux'
 import Comment from './Comment'
 import * as ReadableAPI from '../api/ReadableAPI'
-import { hashCode } from '../utils/helpers'
+import { hashCode, uniqueId } from '../utils/helpers'
 
 class CommentsList extends Component {
   state = {
@@ -62,12 +61,13 @@ class CommentsList extends Component {
     }
   }
 
-  addComment = (id, body) => {
-    if(id === this.state.currentComment.id) {
-      ReadableAPI.editComment(id, {
-        id: id,
+  addComment = (parentId, body) => {
+      ReadableAPI.newComment({
+        id: uniqueId(),
         timestamp: Date.now(),
-        body: body
+        body: body,
+        author: this.props.user,
+        parentId: parentId
       })
       .then( () => {
         this.setState({
@@ -79,7 +79,6 @@ class CommentsList extends Component {
       .then( () => {
         this.props.fetchComments(this.props.postId)
       })
-    }
   }
 
   deleteComment = (e) => {
@@ -107,7 +106,6 @@ class CommentsList extends Component {
     const { comments, postId } = this.props
     const { editModalOpen, deleteModalOpen, currentComment } = this.state
 
-    console.log('currentComment: ', currentComment);
     return (
       <div>
         <Row>
@@ -145,7 +143,7 @@ class CommentsList extends Component {
             comment={currentComment}
             parentId={postId}
             onApply={this.editComment}
-            onNew={this.newComment}
+            onNew={this.addComment}
             editable
           />
         </Modal.Body>
@@ -173,8 +171,9 @@ class CommentsList extends Component {
   }
 }
 
-function mapStateToProps( { commentsReducer } ) {
+function mapStateToProps( { commentsReducer, login } ) {
   return {
+    user: login.user,
     comments: commentsReducer.comments
   }
 }

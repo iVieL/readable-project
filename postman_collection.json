@@ -33,9 +33,209 @@
 			"response": []
 		},
 		{
+			"name": "up vote post",
+			"request": {
+				"url": "http://localhost:5001/posts/_fiqqp47c5",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "ABCD1234",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"option\":\"upVote\"}"
+				},
+				"description": "upvote post"
+			},
+			"response": []
+		},
+		{
+			"name": "down vote post",
+			"request": {
+				"url": "http://localhost:5001/posts/_fiqqp47c5",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "ABCD1234",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"option\":\"downVote\"}"
+				},
+				"description": "downvote post"
+			},
+			"response": []
+		},
+		{
+			"name": "up vote comment",
+			"request": {
+				"url": "http://localhost:5001/comments/894tuq4ut84ut8v4t8wun89g",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "ABCD1234",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"option\":\"upVote\"}"
+				},
+				"description": "upvote comment"
+			},
+			"response": []
+		},
+		{
+			"name": "down vote comment",
+			"request": {
+				"url": "http://localhost:5001/comments/894tuq4ut84ut8v4t8wun89g",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "ABCD1234",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"option\":\"downVote\"}"
+				},
+				"description": "downvote comment"
+			},
+			"response": []
+		},
+		{
+			"name": "add comment",
+			"request": {
+				"url": "http://localhost:5001/comments",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "ABCD1234",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id\":\"__abcdefghi1\",\n  \"timestamp\": 0,\n  \"body\": \"Comment from Postman!\",\n  \"author\": \"Vielinko\",\n  \"parentId\": \"_76l0qi891\"\n}"
+				},
+				"description": "add comment\n\n"
+			},
+			"response": []
+		},
+		{
 			"name": "get posts",
 			"request": {
 				"url": "http://localhost:5001/posts",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "ABCD1234",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"id\":\"_duu9ph2gy\",\"timestamp\":1504558605990,\"title\":\"Post #1\",\"body\":\"Testing API\",\"author\":\"Vielinko\",\"category\":\"react\"}"
+				},
+				"description": "get all posts"
+			},
+			"response": []
+		},
+		{
+			"name": "get posts by category",
+			"request": {
+				"url": "http://localhost:5001/react/posts",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "ABCD1234",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"id\":\"_duu9ph2gy\",\"timestamp\":1504558605990,\"title\":\"Post #1\",\"body\":\"Testing API\",\"author\":\"Vielinko\",\"category\":\"react\"}"
+				},
+				"description": "get all posts by category"
+			},
+			"response": []
+		},
+		{
+			"name": "categories",
+			"request": {
+				"url": "http://localhost:5001/categories",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "ABCD1234",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"id\":\"_duu9ph2gy\",\"timestamp\":1504558605990,\"title\":\"Post #1\",\"body\":\"Testing API\",\"author\":\"Vielinko\",\"category\":\"react\"}"
+				},
+				"description": "get all categories\n"
+			},
+			"response": []
+		},
+		{
+			"name": "get post comments",
+			"request": {
+				"url": "http://localhost:5001/posts/_76l0qi891/comments",
 				"method": "GET",
 				"header": [
 					{

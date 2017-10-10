@@ -52,9 +52,12 @@ class Comment extends Component {
     })
 
     cleanThings.then( (data) => {
-      //todo: apply edit or apply new one
-      console.log('que hay? ', this.props.comment, this.props.parentId, data.id, data.body);
-      //this.props.onApply(data.id, data.body)
+      const { comment, parentId } = this.props
+      if(comment) {
+        this.props.onApply(data.id, data.body)
+      } else {
+        this.props.onNew(parentId, data.body)
+      }
     })
 
   }
