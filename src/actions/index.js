@@ -2,6 +2,7 @@ import * as ReadableAPI from '../api/ReadableAPI'
 
 export const GET_CATEGORIES = 'GET_CATEGORIES'
 export const LOGIN = 'LOGIN'
+export const REDIRECT_TO = 'REDIRECT_TO'
 export const POSTS = 'POSTS'
 export const GET_POST = 'GET_POST'
 export const CLEAR_POST = 'CLEAR_POST'
@@ -32,6 +33,13 @@ export function session( { user, loggedIn }) {
   }
 }
 
+export function redirectAfterLogin(url) {
+  return {
+    type: REDIRECT_TO,
+    url: url
+  }
+}
+
 export function postsAction( { posts, filterCategory } ) {
   return {
     type: POSTS,
@@ -43,7 +51,7 @@ export function postsAction( { posts, filterCategory } ) {
 export function getPost( post ) {
   return {
     type: GET_POST,
-    post
+    post: post
   }
 }
 

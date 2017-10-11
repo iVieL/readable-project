@@ -2,6 +2,7 @@ import { combineReducers } from 'redux'
 import {
   GET_CATEGORIES,
   LOGIN,
+  REDIRECT_TO,
   POSTS,
   GET_POST,
   CLEAR_POST,
@@ -22,14 +23,19 @@ function categories(state = {}, action) {
   }
 }
 
-function login(state = {}, action) {
-  const {type, user, loggedIn} = action
+function login(state = {loggedIn: false}, action) {
+  const {type, user, loggedIn, url} = action
   switch (type) {
     case LOGIN:
       return {
         ...state,
         user: user,
         loggedIn: loggedIn
+      }
+    case REDIRECT_TO:
+      return {
+        ...state,
+        url: url
       }
     default:
       return state

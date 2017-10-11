@@ -14,6 +14,7 @@ class PostsList extends Component {
 
   render() {
     const { list } = this.props
+    console.log(list);
     return (
       <Row>
         <Col xs={1} sm={1} md={1} lg={1} />

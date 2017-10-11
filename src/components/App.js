@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import Home from './Home'
-import { fetchCategories } from '../actions'
+import { fetchCategories, redirectAfterLogin } from '../actions'
 
 // websites example using bootstrap: https://react.rocks/tag/Bootstrap
 // https://react-bootstrap.github.io/components.html
@@ -16,10 +16,20 @@ class App extends Component {
     this.props.filterCategories()
   }
 
+  componentWillUpdate() {
+    const { location, loggedIn } = this.props
+    if(!loggedIn && location && location.pathname !== '/login') {
+      this.props.afterLogin(location.pathname)
+    } else {
+      if(location.pathname !== '/login') {
+        this.props.afterLogin(undefined)
+      }
+    }
+  }
+
   render() {
     const { loggedIn } = this.props
-    console.log(this.props);
-    console.log(this.props.location.pathname)
+    //const noRedirect = this.props.location.pathname === '/login'
     return (
       <div>
         <Switch>
@@ -27,13 +37,13 @@ class App extends Component {
             <Login history={history}/>
           )}/>
 
-          {/* {!loggedIn && (
+          {!loggedIn && (
             <Redirect to={{
               pathname: '/login',
-              state: {from: this.props.location.pathname}
+              state: {from: this.props.location}
             }}
           />
-          )} */}
+          )}
 
           {/*https://medium.com/@pshrmn/a-simple-react-router-v4-tutorial-7f23ff27adf*/}
           <Route exact path='/' component={Home}/>
@@ -69,6 +79,9 @@ function mapDispatchToProps(dispatch) {
   return {
     filterCategories: () => {
       dispatch(fetchCategories())
+    },
+    afterLogin: (url) => {
+      dispatch(redirectAfterLogin(url))
     }
   }
 }

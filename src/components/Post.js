@@ -169,10 +169,8 @@ class Post extends Component {
       votes = post.voteScore
       timestamp = post.timestamp
     }
-    console.log('isDeleted', this.isDeleted());
     // - ordenar post por votos o fecha
-    // - sumarizar comentarios en tabla de posts
-    // - validar post borrado usando URL (clavos con Login)
+    // - sumarizar comentarios en tabla de posts????
     //
     //
     //
@@ -182,9 +180,14 @@ class Post extends Component {
     // http://localhost:3000/post/edit/_20mxemkk9
 
     if(this.isDeleted()) {
-      <div>
-        <Link to="/" className="btn btn-danger">Back</Link>
-      </div>
+      return (
+        <div>
+          <Header hide/>
+          <div>
+            The post doen't exists, please <Link to="/" >Back</Link>
+          </div>
+        </div>
+      )
     } else
     return (
       <div>

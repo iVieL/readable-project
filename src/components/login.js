@@ -22,7 +22,7 @@ class Login extends Component {
     e.preventDefault();
     const values = serializeform(e.target, {hash: true})
 
-    const {history} = this.props
+    const {history, url} = this.props
     let loginSubmit = new Promise( (resolve, reject) => {
 
       this.props.login( { ...values, loggedIn: true} )
@@ -34,7 +34,7 @@ class Login extends Component {
 
     loginSubmit.then( (data) => {
       const { history } = data
-      history && history.push('/')
+      history && history.push(url ? url: '/')
     })
 
   }
@@ -75,6 +75,7 @@ class Login extends Component {
 function mapStateToProps( { login } ) {
   return {
     user: login.user,
+    url: login.url,
     loggedIn: login.loggedIn
   }
 }
