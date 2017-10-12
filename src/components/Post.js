@@ -169,15 +169,6 @@ class Post extends Component {
       votes = post.voteScore
       timestamp = post.timestamp
     }
-    // - ordenar post por votos o fecha
-    // - sumarizar comentarios en tabla de posts????
-    //
-    //
-    //
-    // deleted
-    // http://localhost:3000/post/view/_20mxemkk9
-    //
-    // http://localhost:3000/post/edit/_20mxemkk9
 
     if(this.isDeleted()) {
       return (
