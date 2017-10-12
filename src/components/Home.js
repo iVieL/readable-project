@@ -23,7 +23,7 @@ class Home extends Component {
           <Col xs={1} sm={1} md={1} lg={1} />
           <Col xs={11} sm={11} md={11} lg={11}>
             <h3 className="text-left">
-              <Label bsClass="text-warning">Avaialble post 100/100</Label>
+              <Label bsClass="text-warning">Available Post</Label>
             </h3>
           </Col>
         </Row>

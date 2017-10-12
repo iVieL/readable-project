@@ -4,6 +4,8 @@ import { formatDate } from '../utils/helpers'
 import { filterByCategory } from '../actions'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import sortBy from 'sort-by'
+
 
 class PostsList extends Component {
 
@@ -14,7 +16,9 @@ class PostsList extends Component {
 
   render() {
     const { list } = this.props
-    console.log(list);
+    if(list) {
+      list.sort(sortBy('-voteScore'))
+    }
     return (
       <Row>
         <Col xs={1} sm={1} md={1} lg={1} />
