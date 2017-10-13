@@ -6,11 +6,17 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import Home from './Home'
-import { fetchCategories, redirectAfterLogin } from '../actions'
+import { fetchCategories, redirectAfterLogin, session } from '../actions'
+import * as cookies from '../utils/cookies'
 
 // websites example using bootstrap: https://react.rocks/tag/Bootstrap
 // https://react-bootstrap.github.io/components.html
 class App extends Component {
+
+  checkForLogin() {
+    const { loggedIn } = this.props
+    return loggedIn || cookies.getUser()
+  }
 
   componentDidMount() {
     this.props.filterCategories()
@@ -18,18 +24,24 @@ class App extends Component {
 
   componentWillUpdate() {
     const { location, loggedIn } = this.props
-    if(!loggedIn && location && location.pathname !== '/login') {
-      this.props.afterLogin(location.pathname)
+
+    const readableUser = cookies.getUser()
+
+    if(readableUser) {
+      this.props.login({user: readableUser, loggedIn: true})
     } else {
-      if(location.pathname !== '/login') {
-        this.props.afterLogin(undefined)
-      }
+        if(!loggedIn && location && location.pathname !== '/login') {
+          this.props.afterLogin(location.pathname)
+        } else {
+          if(location.pathname !== '/login') {
+            this.props.afterLogin(undefined)
+          }
+        }
     }
   }
 
   render() {
-    const { loggedIn } = this.props
-    //const noRedirect = this.props.location.pathname === '/login'
+
     return (
       <div>
         <Switch>
@@ -37,7 +49,7 @@ class App extends Component {
             <Login history={history}/>
           )}/>
 
-          {!loggedIn && (
+          {!this.checkForLogin() && (
             <Redirect to={{
               pathname: '/login',
               state: {from: this.props.location}
@@ -82,6 +94,9 @@ function mapDispatchToProps(dispatch) {
     },
     afterLogin: (url) => {
       dispatch(redirectAfterLogin(url))
+    },
+    login: (data) => {
+      dispatch(session(data))
     }
   }
 }

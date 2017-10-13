@@ -4,6 +4,7 @@ import { session } from '../actions'
 import { FormGroup, ControlLabel, FormControl, Row, Col, Button } from 'react-bootstrap'
 import Header from './Header'
 import serializeform from 'form-serialize'
+import * as cookies from '../utils/cookies'
 
 
 class Login extends Component {
@@ -24,7 +25,7 @@ class Login extends Component {
 
     const {history, url} = this.props
     let loginSubmit = new Promise( (resolve, reject) => {
-
+      cookies.login(values.user)
       this.props.login( { ...values, loggedIn: true} )
       this.setState({user: '', loggedIn: false})
       setTimeout( () => {

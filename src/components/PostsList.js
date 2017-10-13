@@ -103,29 +103,6 @@ class PostsList extends Component {
             </tbody>
 
           </Table>
-{/*
-          <div>
-            <nav aria-label="Page navigation">
-              <ul className="pagination pagination-sm">
-                <li>
-                  <a href="http://localhost:3000" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                  </a>
-                </li>
-                <li><a href="http://localhost:3000">1</a></li>
-                <li><a href="http://localhost:3000">2</a></li>
-                <li><a href="http://localhost:3000">3</a></li>
-                <li><a href="http://localhost:3000">4</a></li>
-                <li><a href="http://localhost:3000">5</a></li>
-                <li>
-                  <a href="http://localhost:3000" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </div>
-*/}
         </Col>
       </Row>
     )

@@ -2,12 +2,18 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Row, Col, Label } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+import * as cookies from '../utils/cookies'
 
 class Header extends Component {
 
   showButton = () => {
     return !this.props.hide
   }
+
+  logout = () => {
+    cookies.logout()
+  }
+
   render() {
     const { loggedIn, user } = this.props
     return (
@@ -19,7 +25,7 @@ class Header extends Component {
         </Col>
         <Col xs={3} sm={3} md={3} lg={3}>
           {this.showButton() && (
-            <Link to="/login" className="btn btn-success">{ loggedIn ?  user: 'Login'}</Link>
+            <Link to="/login" onClick={() => this.logout()} className="btn btn-success">{ loggedIn ?  user: 'Login'}</Link>
           )}
         </Col>
       </Row>
