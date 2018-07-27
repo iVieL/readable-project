@@ -87,7 +87,8 @@ class Post extends Component {
   }
 
   sameOwner = () => {
-    return this.props.post && this.props.user === this.props.post.author
+    return true
+    //return this.props.post && this.props.user === this.props.post.author
   }
 
   componentDidMount() {
