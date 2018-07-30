@@ -1,7 +1,10 @@
+// server repository: https://github.com/udacity/reactnd-project-readable-starter.git
+
+
 // include key from environment
 const READABLE_KEY='ABCD1234'
 
-const api = "http://localhost:5001"
+const api = "http://localhost:3001"
 
 const headers = {
   'Accept': 'application/json',
