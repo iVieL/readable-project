@@ -1,126 +1,113 @@
-import React, { Component } from 'react'
-import { Row, Table, Col} from 'react-bootstrap'
-import { formatDate } from '../utils/helpers'
-import { filterByCategory } from '../actions'
-import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
-import sortBy from 'sort-by'
+import React, {Component} from 'react'
+import {Row, Table, Col} from 'react-bootstrap'
+import {formatDate} from '../utils/helpers'
+import {filterByCategory, updateSortCriteria} from '../actions'
+import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
 
 
 class PostsList extends Component {
-  state = {
-    sortByVotes: 'N',
-    sortByDate: 'N'
-  }
 
 
-  componentDidMount() {
-    this.props.allPosts(this.props.selected)
-  }
-
-  changeState(votes, dates) {
-    this.setState({
-      sortByVotes: votes,
-      sortByDate: dates
-    })
-  }
-
-  sortByVotes(e) {
-    const { sortByVotes } = this.state
-    switch (sortByVotes) {
-      case 'voteScore':
-        this.changeState('-voteScore', 'N')
-        break;
-      default:
-      this.changeState('voteScore', 'N')
+    componentDidMount() {
+        const {sortByVotes, sortByDate} = this.props;
+        this.props.allPosts(this.props.selected, sortByVotes, sortByDate);
     }
-  }
 
-  sortByDates(e) {
-    const { sortByDate } = this.state
-    switch (sortByDate) {
-      case 'timestamp':
-        this.changeState('N', '-timestamp')
-        break;
-      default:
-      this.changeState('N', 'timestamp')
+    sortByVotes(e) {
+        const {sortByVotes, list} = this.props;
+        switch (sortByVotes) {
+            case 'voteScore':
+                this.props.updateSort('-voteScore', 'N', list);
+                break;
+            default:
+                this.props.updateSort('voteScore', 'N', list)
+        }
     }
-  }
 
-  getSortedIcon(sorted) {
-    if(sorted !== 'N') {
-      if(sorted.charAt(0) === '-') {
+    sortByDates(e) {
+        const {sortByDate, list} = this.props;
+        switch (sortByDate) {
+            case 'timestamp':
+                this.props.updateSort('N', '-timestamp', list);
+                break;
+            default:
+                this.props.updateSort('N', 'timestamp', list)
+        }
+    }
+
+    static getSortedIcon(sorted) {
+        if (sorted !== 'N' && sorted) {
+            if (sorted.charAt(0) === '-') {
+                return (
+                    <span className="glyphicon glyphicon-arrow-up"></span>
+                )
+            } else {
+                return (
+                    <span className="glyphicon glyphicon-arrow-down"></span>
+                )
+            }
+        } else {
+            return ''
+        }
+    }
+
+    render() {
+        const {list, sortByVotes, sortByDate} = this.props;
+
         return (
-          <span className="glyphicon glyphicon-arrow-up"></span>
+            <Row>
+                <Col xs={1} sm={1} md={1} lg={1}/>
+                <Col xs={10} sm={10} md={10} lg={10}>
+                    <Table bordered striped responsive>
+                        <thead>
+                        <tr>
+                            <th className="col-md-1 handsUp"
+                                onClick={() => this.sortByVotes()}>Votes {PostsList.getSortedIcon(sortByVotes)}</th>
+                            <th className="col-md-6">Post Title</th>
+                            <th className="col-md-1">User</th>
+                            <th className="col-md-2 handsUp"
+                                onClick={() => this.sortByDates()}>Date {PostsList.getSortedIcon(sortByDate)}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {list && list.map((post) => (
+                            <tr key={post.id}>
+                                <td className="col-md-1">{post.voteScore}</td>
+                                <td className="col-md-6">
+                                    <Link to={`/post/view/${post.id}`}>{post.title}</Link>
+                                </td>
+                                <td className="col-md-1">{post.author}</td>
+                                <td className="col-md-2">{formatDate(post.timestamp)}</td>
+                            </tr>
+
+                        ))}
+                        </tbody>
+
+                    </Table>
+                </Col>
+            </Row>
         )
-      } else {
-        return (
-          <span className="glyphicon glyphicon-arrow-down"></span>
-        )
-      }
-    } else {
-      return ''
     }
-  }
-
-  render() {
-    const { list } = this.props
-    const { sortByVotes, sortByDate } = this.state
-
-    if(list) {
-      if(sortByVotes !== 'N') {
-        list.sort(sortBy(sortByVotes))
-      } else if(sortByDate !== 'N') {
-        list.sort(sortBy(sortByDate))
-      }
-    }
-
-    return (
-      <Row>
-        <Col xs={1} sm={1} md={1} lg={1} />
-        <Col xs={10} sm={10} md={10} lg={10}>
-          <Table bordered striped responsive>
-            <thead>
-              <tr>
-                <th className="col-md-1 handsUp" onClick={ () => this.sortByVotes() }>Votes {this.getSortedIcon(sortByVotes)}</th>
-                <th className="col-md-6">Post Title</th>
-                <th className="col-md-1">User</th>
-                <th className="col-md-2 handsUp" onClick={ () => this.sortByDates()}>Date {this.getSortedIcon(sortByDate)}</th>
-              </tr>
-            </thead>
-            <tbody>
-              { list && list.map((post) => (
-                <tr key={post.id}>
-                  <td className="col-md-1">{post.voteScore}</td>
-                  <td className="col-md-6">
-                    <Link to={`/post/view/${post.id}`} >{post.title}</Link>
-                  </td>
-                  <td className="col-md-1">{post.author}</td>
-                  <td className="col-md-2">{formatDate(post.timestamp)}</td>
-                </tr>
-
-              ))}
-            </tbody>
-
-          </Table>
-        </Col>
-      </Row>
-    )
-  }
 }
 
-function mapStateToProps( { postsReducer } ) {
-  return {
-    list: postsReducer.posts
-  }
+function mapStateToProps({postsReducer}) {
+    return {
+        list: postsReducer.posts,
+        sortByVotes: postsReducer.sortByVotes,
+        sortByDate: postsReducer.sortByDate
+    }
 }
 
 function mapDispatchToProps(dispatch) {
-  return {
-    allPosts: (category) => {
-      dispatch(filterByCategory(category))
+    return {
+        allPosts: (category, sortByVotes, sortByDate) => {
+            dispatch(filterByCategory(category, sortByVotes, sortByDate))
+        },
+        updateSort: (sortByVotes, sortByDate, posts) => {
+            dispatch(updateSortCriteria(sortByVotes, sortByDate, posts))
+        }
     }
-  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostsList)
