@@ -53,8 +53,8 @@ class PostsList extends Component {
     }
 
     render() {
-        const {list, sortByVotes, sortByDate} = this.props;
-
+        const {list, sortByVotes, sortByDate, selected} = this.props;
+        const path = selected ? selected: 'post/view';
         return (
             <Row>
                 <Col xs={1} sm={1} md={1} lg={1}/>
@@ -75,7 +75,7 @@ class PostsList extends Component {
                             <tr key={post.id}>
                                 <td className="col-md-1">{post.voteScore}</td>
                                 <td className="col-md-6">
-                                    <Link to={`/post/view/${post.id}`}>{post.title}</Link>
+                                    <Link to={`/${path}/${post.id}`}>{post.title}</Link>
                                 </td>
                                 <td className="col-md-1">{post.author}</td>
                                 <td className="col-md-2">{formatDate(post.timestamp)}</td>
