@@ -58,7 +58,9 @@ class App extends Component {
                     )}
 
                     {/*https://medium.com/@pshrmn/a-simple-react-router-v4-tutorial-7f23ff27adf*/}
-                    <Route exact path='/' component={Home}/>
+                    <Route exact path='/' component={(props) => (
+                        <Home {...props} />
+                    )}/>
 
                     <Route exact path="/post/new" render={({history}) => (
                         <Post new history={history}/>
@@ -67,10 +69,6 @@ class App extends Component {
                     <Route path="/post/edit/:id" component={(props) => (
                         <Post edit history={props.history} {...props}/>
                     )} onEnter={this.requiereAuth}/>
-
-                    <Route path="/post/view/:id" component={(props) => (
-                        <Post view history={props.history} {...props}/>
-                    )}/>
 
                     <Route path="/:category/:id" component={(props) => (
                         <Post view history={props.history} {...props}/>
